@@ -177,7 +177,6 @@ local function run()
 
     core.log.error("============================ levy seg res: ", core.json.delay_encode(seg_res))
     local resource = resources[seg_res]
-    core.log.error("============================ levy resource: ", core.json.delay_encode(resource))
     if not resource then
         core.log.error("================== levy no resource: ", seg_res)
         core.response.exit(404, {error_msg = "not found"})
@@ -222,7 +221,7 @@ local function run()
     else
         code, data = resource[method](resource, seg_id, req_body, seg_sub_path, uri_args)
         core.log.error("============================ levy else code: ", encode(code),
-                    " method: ", method, " seg_id: ", seg_id, "req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args), " resource: ", encode(resource))
+                    " method: ", method, " seg_id: ", seg_id, "req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args))
     end
 
     if code then
