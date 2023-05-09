@@ -130,7 +130,7 @@ function _M:get(id, conf, sub_path)
     end
 
     utils.fix_count(res.body, id)
-    return res.status, res.body
+    return 200, res.body
 end
 
 

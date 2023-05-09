@@ -216,12 +216,12 @@ local function run()
     local code, data
     if seg_res == "schema" or seg_res == "plugins" then
         code, data = resource[method](seg_id, req_body, seg_sub_path, uri_args)
-        core.log.error("============================ levy if code: ", encode(code),
+        core.log.error("============================ levy if code: ", code,
                     " method: ", method, " seg_id: ", seg_id, "req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args))
     else
         code, data = resource[method](resource, seg_id, req_body, seg_sub_path, uri_args)
-        core.log.error("============================ levy else code: ", encode(code),
-                    " method: ", method, " seg_id: ", seg_id, "req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args))
+        core.log.error("============================ levy else code: ", code,
+                    " method: ", method, " seg_id: ", seg_id, " req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args))
     end
 
     if code then
