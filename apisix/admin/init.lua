@@ -321,7 +321,6 @@ local function sync_local_conf_to_etcd(reset)
         end
 
         if res.status == 404 then
-            core.log.error("================== levy no plugins")
             -- nothing need to be reset
             return
         end

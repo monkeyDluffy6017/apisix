@@ -156,4 +156,4 @@ jobs:
       - name: Run debugger
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 15
+        timeout-minutes: 60
