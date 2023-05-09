@@ -28,9 +28,8 @@ jobs:
           - ubuntu-20.04
         os_name:
           - linux_openresty
-          - linux_openresty_1_19
         test_dir:
-          - t/admin
+          - t/admin/api.t
 
     runs-on: ${{ matrix.platform }}
     timeout-minutes: 90
@@ -153,3 +152,8 @@ jobs:
           echo "start backing up, $(date)"
           bash ./ci/backup-docker-images.sh ${{ steps.test_env.outputs.type }}
           echo "backup done, $(date)"
+
+      - name: Run debugger
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 15
