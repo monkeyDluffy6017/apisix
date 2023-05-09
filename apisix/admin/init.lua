@@ -246,8 +246,13 @@ local function run()
 
         data = strip_etcd_resp(data)
 
+        core.log.error("============================ levy code: ", code, " data: ", encode(data))
+
         core.response.exit(code, data)
     end
+
+    core.log.error("============================ levy no code")
+
 end
 
 
