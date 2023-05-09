@@ -32,6 +32,7 @@ local reload_event = "/apisix/admin/plugins/reload"
 local ipairs = ipairs
 local error = error
 local type = type
+local encode = core.json.delay_encode
 
 
 local events
@@ -153,7 +154,7 @@ local function run()
     end
 
     local uri_segs = core.utils.split_uri(ngx.var.uri)
-    core.log.info("uri: ", core.json.delay_encode(uri_segs))
+    core.log.error("============================ levy uri: ", core.json.delay_encode(uri_segs))
 
     -- /apisix/admin/schema/route
     local seg_res, seg_id = uri_segs[4], uri_segs[5]
@@ -174,7 +175,9 @@ local function run()
         end
     end
 
+    core.log.error("============================ levy seg res: ", core.json.delay_encode(seg_res))
     local resource = resources[seg_res]
+    core.log.error("============================ levy resource: ", core.json.delay_encode(resource))
     if not resource then
         core.log.error("================== levy no resource: ", seg_res)
         core.response.exit(404, {error_msg = "not found"})
@@ -214,8 +217,12 @@ local function run()
     local code, data
     if seg_res == "schema" or seg_res == "plugins" then
         code, data = resource[method](seg_id, req_body, seg_sub_path, uri_args)
+        core.log.error("============================ levy if code: ", encode(code),
+                    " method: ", method, " seg_id: ", seg_id, "req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args))
     else
         code, data = resource[method](resource, seg_id, req_body, seg_sub_path, uri_args)
+        core.log.error("============================ levy else code: ", encode(code),
+                    " method: ", method, " seg_id: ", seg_id, "req_body: ", encode(req_body), " seg_sub_path: ", encode(seg_sub_path), " uri_args: ", encode(uri_args), " resource: ", encode(resource))
     end
 
     if code then
