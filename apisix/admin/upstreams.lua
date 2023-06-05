@@ -121,12 +121,23 @@ function _M.post(id, conf)
 end
 
 
-function _M.delete(id)
+function _M.delete(id, conf)
     if not id then
         return 400, {error_msg = "missing upstream id"}
     end
 
-    local routes, routes_ver = get_routes()
+    if conf and conf.force and type(conf.force) ~= "boolean" then
+        return 400, {error_msg = "the force should be boolean type"}
+    end
+
+    local routes, routes_ver
+    local services, services_ver
+
+    if conf and conf.force then
+        goto SKIP_CHECK_REFERENCE
+    end
+
+    routes, routes_ver = get_routes()
     if routes_ver and routes then
         for _, route in ipairs(routes) do
             if type(route) == "table" and route.value
@@ -139,7 +150,7 @@ function _M.delete(id)
         end
     end
 
-    local services, services_ver = get_services()
+    services, services_ver = get_services()
     core.log.info("services: ", core.json.delay_encode(services, true))
     core.log.info("services_ver: ", services_ver)
     if services_ver and services then
@@ -154,6 +165,7 @@ function _M.delete(id)
         end
     end
 
+    ::SKIP_CHECK_REFERENCE::
     local key = "/upstreams/" .. id
     local res, err = core.etcd.delete(key)
     if not res then

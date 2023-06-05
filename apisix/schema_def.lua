@@ -489,6 +489,12 @@ local upstream_schema = {
             minLength = 1
         },
         id = id_schema,
+        force = {
+            description = [[ Reference relationships between resources
+                          are not checked and updates or deletions are made directly When enabled ]],
+            type        = "boolean",
+            default     = false,
+        },
     },
     oneOf = {
         {required = {"type", "nodes"}},
